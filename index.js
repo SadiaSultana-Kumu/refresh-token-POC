@@ -1,8 +1,10 @@
 const express = require('express')
 var cors = require('cors')
 require('dotenv').config()
+const { verifyAccessToken } = require('./lib/utils')
 require("./config/database");
 require("./models/User");
+
 const AuthRoutes = require('./routes/Auth.route')
 const port = process.env.PORT
 
@@ -11,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors())
 
-app.get('/', async (req, res, next) => {
+app.get('/', verifyAccessToken, async (req, res, next) => {
   res.send('Hello World!')
 })
 
